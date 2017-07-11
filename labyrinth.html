@@ -1,0 +1,109 @@
+<canvas id="canvas" width="900" height="600">
+    Your browser doesn't support the canvas element
+</canvas>
+<script>
+
+var canv;
+var ctx;
+var grid = [];
+var gridWidth;
+var gridHeight;
+var player = {
+    x: 0,
+    y: 0,
+    draw: function(ctx){
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(this.x*30 + 10, this.y*30 + 10, 10, 10)
+    },
+    moveLeft: function(){
+        if (this.x === 0){
+            this.x = gridWidth - 1;
+        } else {
+            this.x -= 1;
+        }
+    },
+    moveUp: function(){
+        if(this.y === 0){
+            this.y = gridHeight - 1;
+        } else {
+            this.y -= 1;
+        }
+    },
+    moveRight: function(){
+        if(this.x === gridWidth - 1){
+            this.x = 0;
+        } else {
+            this.x += 1;
+        }
+    },
+    moveDown: function(){
+        if(this.y === gridHeight - 1){
+            this.y = 0;
+        } else {
+            this.y += 1;
+        }
+    }
+}
+
+window.onload = function(){
+    canv = document.getElementById('canvas');
+    ctx = canv.getContext('2d');
+
+    document.addEventListener('keydown', keyDown);
+
+    init();
+    refresh();
+    window.intervalId = setInterval(update, 1000/30);
+};
+
+function init(){
+    gridWidth = Math.floor(canv.width/30);
+    gridHeight = Math.floor(canv.height/30);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canv.width, canv.height);
+}
+
+function refresh(){
+    for(i = 0; i < gridWidth; i++){
+        grid.push([]);
+        for(j = 0; j < gridHeight; j++){
+            grid[i].push({
+                x: i,
+                y: j,
+                draw: function(ctx){
+                    ctx.fillStyle = '#aaa';
+                    ctx.fillRect(this.x*30 + 1, this.y*30 + 1, 28, 28);
+                }
+            });
+        }
+    }
+}
+
+function update(){
+    for(i = 0; i < grid.length; i++){
+        for(j = 0; j < grid[i].length; j++){
+            //console.log(j);
+            grid[i][j].draw(ctx);
+        }
+    }
+    player.draw(ctx);
+}
+
+function keyDown(evt){
+    switch(evt.keyCode){
+    case 37:
+        player.moveLeft();
+        break;
+    case 38:
+        player.moveUp();
+        break;
+    case 39:
+        player.moveRight();
+        break;
+    case 40:
+        player.moveDown();
+        break;
+    }
+}
+
+</script>

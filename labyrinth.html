@@ -15,7 +15,7 @@ var TileFloor = function(x, y){
     var tile = new Tile(x, y);
     tile.type = 'TILE_FLOOR';
     tile.draw = function(ctx){
-        ctx.fillStyle = '#ddd';
+        ctx.fillStyle = '#dbc59e';
         ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, CELL_WIDTH, CELL_WIDTH);
     }
     return tile;
@@ -43,7 +43,7 @@ var TileWall = function(x, y){
         });
         ctx.fillStyle = '#666';
         ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, CELL_WIDTH, CELL_WIDTH);
-        ctx.fillStyle = '#aaa';
+        ctx.fillStyle = '#35281F';
         if(edges[0]){
             ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, 4, CELL_WIDTH);
         }

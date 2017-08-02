@@ -3,6 +3,35 @@
 </canvas>
 <script>
 
+var Tile = function(x, y){
+    this.x = x;
+    this.y = y;
+    this.type = 'TILE';
+    this.draw = function(){};
+}
+
+var TileFloor = function(x, y){
+    var tile = new Tile(x, y);
+    tile.type = 'TILE_FLOOR';
+    tile.draw = function(ctx){
+        ctx.fillStyle = '#aaa';
+        ctx.fillRect(this.x*30 + 1, this.y*30 + 1, 28, 28);
+    }
+    return tile;
+}
+
+var TileWall = function(x, y){
+    var tile = new Tile(x, y);
+    tile.type = 'TILE_WALL';
+    tile.draw = function(ctx){
+        ctx.fillStyle = '#aaa';
+        ctx.fillRect(this.x*30 + 1, this.y*30 + 1, 28, 28);
+        ctx.fillStyle = '#333';
+        ctx.fillRect(this.x*30 + 3, this.y*30 + 3, 24, 24);
+    }
+    return tile;
+}
+
 var canv;
 var ctx;
 var grid = [];
@@ -61,15 +90,7 @@ function refresh(){
     for(i = 0; i < gridWidth; i++){
         grid.push([]);
         for(j = 0; j < gridHeight; j++){
-            grid[i].push({
-                x: i,
-                y: j,
-                type: 'TILE_FLOOR',
-                draw: function(ctx){
-                    ctx.fillStyle = '#aaa';
-                    ctx.fillRect(this.x*30 + 1, this.y*30 + 1, 28, 28);
-                }
-            });
+            grid[i].push(new TileFloor(i, j));
         }
     }
 }

@@ -137,7 +137,6 @@ function generateMaze(grid){
 
     while(remainingCells.length !== 0){
         var cell = remainingCells.splice(Math.floor(Math.random()*(remainingCells.length - 1)), 1)[0];
-        console.log(cell);
         var cellNeighbours = getNeighbouringCells(cell, grid);
         var exploredNeighboursCount = 0;
         var unexploredNeighbours = [];
@@ -148,7 +147,6 @@ function generateMaze(grid){
                 unexploredNeighbours.push(v);
             }
         });
-        console.log(exploredNeighboursCount);
         if(exploredNeighboursCount !== 2){
             cell = new TileFloor(cell.x, cell.y);
             unexploredNeighbours.forEach(function(v){

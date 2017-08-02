@@ -6,8 +6,8 @@
 var canv;
 var ctx;
 var grid = [];
-var gridWidth;
-var gridHeight;
+var gridWidth = 0;
+var gridHeight = 0;
 var player = {
     x: 0,
     y: 0,
@@ -15,32 +15,19 @@ var player = {
         ctx.fillStyle = '#fff';
         ctx.fillRect(this.x*30 + 10, this.y*30 + 10, 10, 10)
     },
-    moveLeft: function(){
-        if (this.x === 0){
-            this.x = gridWidth - 1;
-        } else {
-            this.x -= 1;
+    move: function(x, y){
+        this.x += x;
+        this.y += y;
+
+        if(this.x < 0){
+            this.x = gridWidth + this.x % gridWidth;
+        } else if(this.x > gridWidth - 1){
+            this.x = this.x % gridWidth;
         }
-    },
-    moveUp: function(){
-        if(this.y === 0){
-            this.y = gridHeight - 1;
-        } else {
-            this.y -= 1;
-        }
-    },
-    moveRight: function(){
-        if(this.x === gridWidth - 1){
-            this.x = 0;
-        } else {
-            this.x += 1;
-        }
-    },
-    moveDown: function(){
-        if(this.y === gridHeight - 1){
-            this.y = 0;
-        } else {
-            this.y += 1;
+        if(this.y < 0){
+            this.y = gridHeight + this.y % gridHeight;
+        } else if(this.y > gridHeight - 1){
+            this.y = this.y % gridHeight;
         }
     }
 }
@@ -92,16 +79,16 @@ function update(){
 function keyDown(evt){
     switch(evt.keyCode){
     case 37:
-        player.moveLeft();
+        player.move(-1, 0);
         break;
     case 38:
-        player.moveUp();
+        player.move(0, -1);
         break;
     case 39:
-        player.moveRight();
+        player.move(1, 0);
         break;
     case 40:
-        player.moveDown();
+        player.move(0, 1);
         break;
     }
 }

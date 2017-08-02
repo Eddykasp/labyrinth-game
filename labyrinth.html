@@ -16,7 +16,7 @@ var TileFloor = function(x, y){
     tile.type = 'TILE_FLOOR';
     tile.draw = function(ctx){
         ctx.fillStyle = '#ddd';
-        ctx.fillRect(this.x*CELL_WIDTH + 1, this.y*CELL_WIDTH + 1, CELL_WIDTH - 2, CELL_WIDTH - 2);
+        ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, CELL_WIDTH, CELL_WIDTH);
     }
     return tile;
 }

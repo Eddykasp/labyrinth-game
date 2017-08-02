@@ -25,10 +25,37 @@ var TileWall = function(x, y){
     var tile = new Tile(x, y);
     tile.type = 'TILE_WALL';
     tile.draw = function(ctx){
-        ctx.fillStyle = '#aaa';
-        ctx.fillRect(this.x*CELL_WIDTH + 1, this.y*CELL_WIDTH + 1, CELL_WIDTH - 2,  CELL_WIDTH - 2);
+        var neighbours = getNeighbouringCells(tile, grid);
+        // denotes whether the faces are an edge (left, up, right, down)
+        var edges = [true, true, true, true];
+        neighbours.forEach(function(cell){
+            if(cell.type === 'TILE_WALL'){
+                if(cell.x < tile.x){
+                    edges[0] = false;
+                } else if(cell.x > tile.x){
+                    edges[2] = false;
+                } else if(cell.y < tile.y){
+                    edges[1] = false;
+                } else if(cell.y > tile.y){
+                    edges[3] = false;
+                }
+            }
+        });
         ctx.fillStyle = '#666';
-        ctx.fillRect(this.x*CELL_WIDTH + 3, this.y*CELL_WIDTH + 3, CELL_WIDTH - 6, CELL_WIDTH - 6);
+        ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, CELL_WIDTH, CELL_WIDTH);
+        ctx.fillStyle = '#aaa';
+        if(edges[0]){
+            ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, 4, CELL_WIDTH);
+        }
+        if(edges[1]){
+            ctx.fillRect(this.x*CELL_WIDTH, this.y*CELL_WIDTH, CELL_WIDTH, 4);
+        }
+        if(edges[2]){
+            ctx.fillRect((this.x+1)*CELL_WIDTH-4, this.y*CELL_WIDTH, 4, CELL_WIDTH);
+        }
+        if(edges[3]){
+            ctx.fillRect(this.x*CELL_WIDTH, (this.y+1)*CELL_WIDTH - 4, CELL_WIDTH, 4);
+        }
     }
     return tile;
 }

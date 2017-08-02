@@ -7,6 +7,7 @@ var Tile = function(x, y){
     this.x = x;
     this.y = y;
     this.type = 'TILE';
+    this.explored = false;
     this.draw = function(){};
 }
 
@@ -76,6 +77,7 @@ window.onload = function(){
 
     init();
     refresh();
+    generateMaze(grid);
     window.intervalId = setInterval(update, 1000/30);
 };
 
@@ -90,7 +92,7 @@ function refresh(){
     for(i = 0; i < gridWidth; i++){
         grid.push([]);
         for(j = 0; j < gridHeight; j++){
-            grid[i].push(new TileFloor(i, j));
+            grid[i].push(new TileWall(i, j));
         }
     }
 }
@@ -120,6 +122,60 @@ function keyDown(evt){
         player.move(0, 1);
         break;
     }
+}
+
+function generateMaze(grid){
+    var startCell = grid[0][0];
+    startCell = new TileFloor(startCell.x, startCell.y);
+    grid[0][0] = startCell;
+    startCell.explored = true;
+    var remainingCells = [];
+    getNeighbouringCells(startCell, grid)
+        .forEach(function(v){
+            remainingCells.push(v)
+        });
+
+    while(remainingCells.length !== 0){
+        var cell = remainingCells.splice(Math.floor(Math.random()*(remainingCells.length - 1)), 1)[0];
+        console.log(cell);
+        var cellNeighbours = getNeighbouringCells(cell, grid);
+        var exploredNeighboursCount = 0;
+        var unexploredNeighbours = [];
+        cellNeighbours.forEach(function(v){
+            if(v.explored){
+                exploredNeighboursCount += 1;
+            } else{
+                unexploredNeighbours.push(v);
+            }
+        });
+        console.log(exploredNeighboursCount);
+        if(exploredNeighboursCount !== 2){
+            cell = new TileFloor(cell.x, cell.y);
+            unexploredNeighbours.forEach(function(v){
+                remainingCells.push(v);
+            });
+
+        }
+        cell.explored = true;
+        grid[cell.x][cell.y] = cell;
+    }
+}
+
+function getNeighbouringCells(cell, grid){
+    var neighbourList = [];
+    if(cell.x > 0){
+            neighbourList.push(grid[cell.x-1][cell.y]);
+        }
+    if(cell.x < gridWidth - 1){
+            neighbourList.push(grid[cell.x + 1][cell.y]);
+        }
+    if(cell.y > 0){
+            neighbourList.push(grid[cell.x][cell.y - 1]);
+        }
+    if(cell.y < gridHeight - 1){
+            neighbourList.push(grid[cell.x][cell.y + 1]);
+        }
+    return neighbourList;
 }
 
 </script>

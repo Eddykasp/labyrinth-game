@@ -15,7 +15,7 @@ var TileFloor = function(x, y){
     var tile = new Tile(x, y);
     tile.type = 'TILE_FLOOR';
     tile.draw = function(ctx){
-        ctx.fillStyle = '#aaa';
+        ctx.fillStyle = '#ddd';
         ctx.fillRect(this.x*CELL_WIDTH + 1, this.y*CELL_WIDTH + 1, CELL_WIDTH - 2, CELL_WIDTH - 2);
     }
     return tile;
@@ -27,7 +27,7 @@ var TileWall = function(x, y){
     tile.draw = function(ctx){
         ctx.fillStyle = '#aaa';
         ctx.fillRect(this.x*CELL_WIDTH + 1, this.y*CELL_WIDTH + 1, CELL_WIDTH - 2,  CELL_WIDTH - 2);
-        ctx.fillStyle = '#333';
+        ctx.fillStyle = '#666';
         ctx.fillRect(this.x*CELL_WIDTH + 3, this.y*CELL_WIDTH + 3, CELL_WIDTH - 6, CELL_WIDTH - 6);
     }
     return tile;
@@ -43,7 +43,7 @@ var player = {
     x: 0,
     y: 0,
     draw: function(ctx){
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = '#0aa';
         ctx.fillRect(this.x*CELL_WIDTH + 6, this.y*CELL_WIDTH + 6, CELL_WIDTH - 12, CELL_WIDTH - 12);
     },
     move: function(x, y){

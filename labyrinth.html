@@ -60,20 +60,15 @@ var TileWall = function(x, y){
     return tile;
 }
 
-const CELL_WIDTH = 20;
-var canv;
-var ctx;
-var grid = [];
-var gridWidth = 0;
-var gridHeight = 0;
-var player = {
-    x: 0,
-    y: 0,
-    draw: function(ctx){
-        ctx.fillStyle = '#0aa';
+var Person = function (){
+    this.x = 0;
+    this.y = 0;
+    this.colour = '#fff';
+    this.draw = function(ctx){
+        ctx.fillStyle = this.colour;
         ctx.fillRect(this.x*CELL_WIDTH + 6, this.y*CELL_WIDTH + 6, CELL_WIDTH - 12, CELL_WIDTH - 12);
-    },
-    move: function(x, y){
+    };
+    this.move = function(x, y){
         var newX = this.x;
         newX += x;
         var newY = this.y;
@@ -96,6 +91,15 @@ var player = {
         }
     }
 }
+
+const CELL_WIDTH = 20;
+var canv;
+var ctx;
+var grid = [];
+var gridWidth = 0;
+var gridHeight = 0;
+var player = new Person();
+player.colour = '#0aa';
 
 window.onload = function(){
     canv = document.getElementById('canvas');

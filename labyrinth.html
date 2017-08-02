@@ -162,17 +162,25 @@ function generateMaze(grid){
 function getNeighbouringCells(cell, grid){
     var neighbourList = [];
     if(cell.x > 0){
-            neighbourList.push(grid[cell.x-1][cell.y]);
-        }
+        neighbourList.push(grid[cell.x-1][cell.y]);
+    } else {
+        neighbourList.push(grid[gridWidth - 1][cell.y]);
+    }
     if(cell.x < gridWidth - 1){
-            neighbourList.push(grid[cell.x + 1][cell.y]);
-        }
+        neighbourList.push(grid[cell.x + 1][cell.y]);
+    } else {
+        neighbourList.push(grid[0][cell.y]);
+    }
     if(cell.y > 0){
-            neighbourList.push(grid[cell.x][cell.y - 1]);
-        }
+        neighbourList.push(grid[cell.x][cell.y - 1]);
+    } else {
+        neighbourList.push(grid[cell.x][gridHeight - 1]);
+    }
     if(cell.y < gridHeight - 1){
-            neighbourList.push(grid[cell.x][cell.y + 1]);
-        }
+        neighbourList.push(grid[cell.x][cell.y + 1]);
+    } else {
+        neighbourList.push(grid[cell.x][0]);
+    }
     return neighbourList;
 }
 

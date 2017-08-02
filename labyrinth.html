@@ -100,6 +100,10 @@ var gridWidth = 0;
 var gridHeight = 0;
 var player = new Person();
 player.colour = '#0aa';
+var mob = new Person();
+mob.x = 5;
+mob.y = 5;
+mob.colour = '#d22';
 
 window.onload = function(){
     canv = document.getElementById('canvas');
@@ -136,6 +140,11 @@ function update(){
             grid[i][j].draw(ctx);
         }
     }
+    let mx = Math.floor(Math.random()*3 - 2) + 1;
+    let my = Math.floor(Math.random()*3 - 2) + 1;
+    //console.log(mx + '|' + my);
+    mob.move(mx, my);
+    mob.draw(ctx);
     player.draw(ctx);
 }
 

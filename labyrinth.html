@@ -32,8 +32,10 @@ var player = {
             newY = newY % gridHeight;
         }
 
-        this.x = newX;
-        this.y = newY;
+        if(grid[newX][newY].type === 'TILE_FLOOR'){
+            this.x = newX;
+            this.y = newY;
+        }
     }
 }
 
@@ -62,6 +64,7 @@ function refresh(){
             grid[i].push({
                 x: i,
                 y: j,
+                type: 'TILE_FLOOR',
                 draw: function(ctx){
                     ctx.fillStyle = '#aaa';
                     ctx.fillRect(this.x*30 + 1, this.y*30 + 1, 28, 28);

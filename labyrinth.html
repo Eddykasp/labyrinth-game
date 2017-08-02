@@ -66,7 +66,8 @@ var Person = function (){
     this.colour = '#fff';
     this.draw = function(ctx){
         ctx.fillStyle = this.colour;
-        ctx.fillRect(this.x*CELL_WIDTH + 6, this.y*CELL_WIDTH + 6, CELL_WIDTH - 12, CELL_WIDTH - 12);
+        var padding = Math.floor(CELL_WIDTH/10);
+        ctx.fillRect(this.x*CELL_WIDTH + padding, this.y*CELL_WIDTH + padding, CELL_WIDTH - padding*2, CELL_WIDTH - padding*2);
     };
     this.move = function(x, y){
         var newX = this.x;
@@ -92,7 +93,7 @@ var Person = function (){
     }
 }
 
-const CELL_WIDTH = 20;
+const CELL_WIDTH = 10;
 var canv;
 var ctx;
 var grid = [];
@@ -101,7 +102,7 @@ var gridHeight = 0;
 var player = new Person();
 player.colour = '#0aa';
 var mobs = [];
-for(var i = 0; i < 100; i++){
+for(var i = 0; i < 1000; i++){
     mobs.push(new Person());
     mobs[i].x = 5;
     mobs[i].y = 5;

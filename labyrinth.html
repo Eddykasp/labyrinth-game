@@ -115,6 +115,7 @@ window.onload = function(){
     refresh();
     generateMaze(grid);
     window.intervalId = setInterval(update, 1000/30);
+    window.aiTickId = setInterval(aiTick, 1000/10);
 };
 
 function init(){
@@ -140,12 +141,14 @@ function update(){
             grid[i][j].draw(ctx);
         }
     }
-    let mx = Math.floor(Math.random()*3 - 2) + 1;
-    let my = Math.floor(Math.random()*3 - 2) + 1;
-    //console.log(mx + '|' + my);
-    mob.move(mx, my);
     mob.draw(ctx);
     player.draw(ctx);
+}
+
+function aiTick(){
+    let mx = Math.floor(Math.random()*3 - 2) + 1;
+    let my = Math.floor(Math.random()*3 - 2) + 1;
+    mob.move(mx, my);
 }
 
 function keyDown(evt){

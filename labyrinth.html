@@ -30,13 +30,13 @@ var TileWall = function(x, y){
         var edges = [true, true, true, true];
         neighbours.forEach(function(cell){
             if(cell.type === 'TILE_WALL'){
-                if(cell.x < tile.x){
+                if(tile.x - cell.x === 1 || (tile.x === 0 && cell.x === gridWidth - 1)){
                     edges[0] = false;
-                } else if(cell.x > tile.x){
+                } else if(cell.x - tile.x === 1 || (cell.x === 0 && tile.x === gridWidth - 1)){
                     edges[2] = false;
-                } else if(cell.y < tile.y){
+                } else if(tile.y - cell.y === 1 || (tile.y === 0 && cell.y === gridHeight - 1)){
                     edges[1] = false;
-                } else if(cell.y > tile.y){
+                } else if(cell.y - tile.y === 1 || (cell.y === 0 && tile.y === gridHeight - 1)){
                     edges[3] = false;
                 }
             }

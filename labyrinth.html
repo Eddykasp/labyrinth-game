@@ -100,10 +100,19 @@ var gridWidth = 0;
 var gridHeight = 0;
 var player = new Person();
 player.colour = '#0aa';
+var mobs = [];
+for(var i = 0; i < 100; i++){
+    mobs.push(new Person());
+    mobs[i].x = 5;
+    mobs[i].y = 5;
+    mobs[i].colour = '#d22';
+}
+/*
 var mob = new Person();
 mob.x = 5;
 mob.y = 5;
 mob.colour = '#d22';
+*/
 
 window.onload = function(){
     canv = document.getElementById('canvas');
@@ -141,14 +150,24 @@ function update(){
             grid[i][j].draw(ctx);
         }
     }
-    mob.draw(ctx);
+    mobs.forEach(function(v){
+        v.draw(ctx);
+    });
+    //mob.draw(ctx);
     player.draw(ctx);
 }
 
 function aiTick(){
+    mobs.forEach(function(v){
+        let mx = Math.floor(Math.random()*3 - 2) + 1;
+        let my = Math.floor(Math.random()*3 - 2) + 1;
+        v.move(mx, my);
+    });
+    /*
     let mx = Math.floor(Math.random()*3 - 2) + 1;
     let my = Math.floor(Math.random()*3 - 2) + 1;
     mob.move(mx, my);
+    */
 }
 
 function keyDown(evt){

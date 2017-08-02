@@ -16,19 +16,24 @@ var player = {
         ctx.fillRect(this.x*30 + 10, this.y*30 + 10, 10, 10)
     },
     move: function(x, y){
-        this.x += x;
-        this.y += y;
+        var newX = this.x;
+        newX += x;
+        var newY = this.y;
+        newY += y;
 
-        if(this.x < 0){
-            this.x = gridWidth + this.x % gridWidth;
-        } else if(this.x > gridWidth - 1){
-            this.x = this.x % gridWidth;
+        if(newX < 0){
+            newX = gridWidth + newX % gridWidth;
+        } else if(newX > gridWidth - 1){
+            newX = newX % gridWidth;
         }
-        if(this.y < 0){
-            this.y = gridHeight + this.y % gridHeight;
-        } else if(this.y > gridHeight - 1){
-            this.y = this.y % gridHeight;
+        if(newY < 0){
+            newY = gridHeight + newY % gridHeight;
+        } else if(newY > gridHeight - 1){
+            newY = newY % gridHeight;
         }
+
+        this.x = newX;
+        this.y = newY;
     }
 }
 

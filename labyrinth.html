@@ -60,20 +60,16 @@ var TileWall = function(x, y){
     return tile;
 }
 
-const CELL_WIDTH = 20;
-var canv;
-var ctx;
-var grid = [];
-var gridWidth = 0;
-var gridHeight = 0;
-var player = {
-    x: 0,
-    y: 0,
-    draw: function(ctx){
-        ctx.fillStyle = '#0aa';
-        ctx.fillRect(this.x*CELL_WIDTH + 6, this.y*CELL_WIDTH + 6, CELL_WIDTH - 12, CELL_WIDTH - 12);
-    },
-    move: function(x, y){
+var Person = function (){
+    this.x = 0;
+    this.y = 0;
+    this.colour = '#fff';
+    this.draw = function(ctx){
+        ctx.fillStyle = this.colour;
+        var padding = Math.floor(CELL_WIDTH/10);
+        ctx.fillRect(this.x*CELL_WIDTH + padding, this.y*CELL_WIDTH + padding, CELL_WIDTH - padding*2, CELL_WIDTH - padding*2);
+    };
+    this.move = function(x, y){
         var newX = this.x;
         newX += x;
         var newY = this.y;
@@ -97,6 +93,66 @@ var player = {
     }
 }
 
+const CELL_WIDTH = 10;
+var canv;
+var ctx;
+var grid = [];
+var gridWidth = 0;
+var gridHeight = 0;
+var player = new Person();
+player.colour = '#0aa';
+var mobs = [];
+for(var i = 0; i < 1000; i++){
+    mobs.push(new Person());
+    mobs[i].x = 50;
+    mobs[i].y = 50;
+    mobs[i].colour = '#d225';
+    mobs[i].tick = function(){
+        let n = getNeighbouringCells(grid[this.x][this.y], grid);
+        let targets = [];
+        n.forEach(function(neighbour){
+            if(neighbour.type === 'TILE_FLOOR'){
+                targets.push(neighbour);
+            }
+        });
+        targets.forEach(function(target){
+            target.attractivenes = 1;
+            if(target.x - 2 < player.x && target.x + 2 > player.x
+                && target.y - 2 < player.y && target.y + 2 > player.y){
+                    target.attractivenes = 0;
+                    return;
+                }
+            mobs.forEach(function(mob){
+                if(mob == this){
+                    return;
+                }
+                if(mob.x === target.x && mob.y === target.y){
+                    target.attractivenes = 0.3;
+                    return;
+                }
+            });
+        });
+
+        let undecided = true;
+        var t;
+        var tries = 0;
+        while(undecided === true){
+            if(tries === 3){
+                return;
+            }
+            t = Math.floor(Math.random()*targets.length);
+            let r = Math.random();
+            if(r < targets[t].attractivenes){
+                undecided = false;
+            }
+            tries++;
+        }
+        let mx = targets[t].x - this.x;
+        let my = targets[t].y - this.y;
+        this.move(mx, my);
+    };
+}
+
 window.onload = function(){
     canv = document.getElementById('canvas');
     ctx = canv.getContext('2d');
@@ -107,6 +163,7 @@ window.onload = function(){
     refresh();
     generateMaze(grid);
     window.intervalId = setInterval(update, 1000/30);
+    window.aiTickId = setInterval(aiTick, 1000/10);
 };
 
 function init(){
@@ -132,7 +189,22 @@ function update(){
             grid[i][j].draw(ctx);
         }
     }
+    mobs.forEach(function(v){
+        v.draw(ctx);
+    });
+    //mob.draw(ctx);
     player.draw(ctx);
+}
+
+function aiTick(){
+    mobs.forEach(function(v){
+        v.tick();
+    });
+    /*
+    let mx = Math.floor(Math.random()*3 - 2) + 1;
+    let my = Math.floor(Math.random()*3 - 2) + 1;
+    mob.move(mx, my);
+    */
 }
 
 function keyDown(evt){

@@ -130,12 +130,17 @@ for(var i = 0; i < 100; i++){
 
         let undecided = true;
         var t;
+        var tries = 0;
         while(undecided === true){
+            if(tries === 3){
+                return;
+            }
             t = Math.floor(Math.random()*targets.length);
             let r = Math.random();
             if(r < targets[t].attractivenes){
                 undecided = false;
             }
+            tries++;
         }
         let mx = targets[t].x - this.x;
         let my = targets[t].y - this.y;

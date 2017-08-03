@@ -107,6 +107,19 @@ for(var i = 0; i < 100; i++){
     mobs[i].x = 50;
     mobs[i].y = 50;
     mobs[i].colour = '#d225';
+    mobs[i].tick = function(){
+        let n = getNeighbouringCells(grid[this.x][this.y], grid);
+        let targets = [];
+        n.forEach(function(neighbour){
+            if(neighbour.type === 'TILE_FLOOR'){
+                targets.push(neighbour);
+            }
+        });
+        let t = Math.floor(Math.random()*targets.length);
+        let mx = targets[t].x - this.x;
+        let my = targets[t].y - this.y;
+        this.move(mx, my);
+    };
 }
 /*
 var mob = new Person();
@@ -160,17 +173,7 @@ function update(){
 
 function aiTick(){
     mobs.forEach(function(v){
-        let n = getNeighbouringCells(grid[v.x][v.y], grid);
-        let targets = [];
-        n.forEach(function(neighbour){
-            if(neighbour.type === 'TILE_FLOOR'){
-                targets.push(neighbour);
-            }
-        });
-        let t = Math.floor(Math.random()*targets.length);
-        let mx = targets[t].x - v.x;
-        let my = targets[t].y - v.y;
-        v.move(mx, my);
+        v.tick();
     });
     /*
     let mx = Math.floor(Math.random()*3 - 2) + 1;

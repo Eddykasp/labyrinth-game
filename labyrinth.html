@@ -102,7 +102,7 @@ var gridHeight = 0;
 var player = new Person();
 player.colour = '#0aa';
 var mobs = [];
-for(var i = 0; i < 10000; i++){
+for(var i = 0; i < 100; i++){
     mobs.push(new Person());
     mobs[i].x = 50;
     mobs[i].y = 50;
@@ -160,8 +160,16 @@ function update(){
 
 function aiTick(){
     mobs.forEach(function(v){
-        let mx = Math.floor(Math.random()*3 - 2) + 1;
-        let my = Math.floor(Math.random()*3 - 2) + 1;
+        let n = getNeighbouringCells(grid[v.x][v.y], grid);
+        let targets = [];
+        n.forEach(function(neighbour){
+            if(neighbour.type === 'TILE_FLOOR'){
+                targets.push(neighbour);
+            }
+        });
+        let t = Math.floor(Math.random()*targets.length);
+        let mx = targets[t].x - v.x;
+        let my = targets[t].y - v.y;
         v.move(mx, my);
     });
     /*

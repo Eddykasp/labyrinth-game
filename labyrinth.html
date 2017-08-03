@@ -115,18 +115,33 @@ for(var i = 0; i < 100; i++){
                 targets.push(neighbour);
             }
         });
-        let t = Math.floor(Math.random()*targets.length);
+        targets.forEach(function(target){
+            target.attractivenes = 1;
+            mobs.forEach(function(mob){
+                if(mob == this){
+                    return;
+                }
+                if(mob.x === target.x && mob.y === target.y){
+                    target.attractivenes = 0.3;
+                    return;
+                }
+            })
+        });
+
+        let undecided = true;
+        var t;
+        while(undecided === true){
+            t = Math.floor(Math.random()*targets.length);
+            let r = Math.random();
+            if(r < targets[t].attractivenes){
+                undecided = false;
+            }
+        }
         let mx = targets[t].x - this.x;
         let my = targets[t].y - this.y;
         this.move(mx, my);
     };
 }
-/*
-var mob = new Person();
-mob.x = 5;
-mob.y = 5;
-mob.colour = '#d22';
-*/
 
 window.onload = function(){
     canv = document.getElementById('canvas');
